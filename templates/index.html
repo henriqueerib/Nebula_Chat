@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nebula Chat AI</title>
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/emoji-mart@latest/dist/browser.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+</head>
+<body>
+
+    <div class="container" id="chat-widget">
+        
+        <div id="login-area">
+            <div class="logo-saturn">
+                <div class="ring"></div>
+                <i data-lucide="zap"></i>
+            </div>
+            <h1>NEBULA</h1>
+            
+            <div class="server-status">
+                <span class="pulse-dot"></span> 
+                <span id="user-count">...</span> astronautas online
+            </div>
+            
+            <input type="text" id="username" placeholder="Seu Username" autocomplete="off">
+            <input type="text" id="room" placeholder="ID da Sala" autocomplete="off">
+            
+            <div class="recent-rooms">
+                <p>Salas Populares:</p>
+                <div class="room-tags">
+                    <span onclick="document.getElementById('room').value='Orbit'">#Orbit</span>
+                    <span onclick="document.getElementById('room').value='Mars'">#Mars</span>
+                </div>
+            </div>
+            
+            <button class="btn-connect" onclick="entrarNaSala()">Conectar Agora</button>
+        </div>
+
+        <div id="chat-area" style="display:none; height: 100%; flex-direction: column;">
+            <header>
+                <div class="header-left">
+                    <button onclick="voltarParaLogin()" class="icon-btn" title="Sair da Sala">
+                        <i data-lucide="chevron-left"></i>
+                    </button>
+                    <div>
+                        <h2 id="room-display">SALA</h2>
+                        <span class="status-live">● ENCRYPTED</span>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button onclick="toggleSidebar()" class="icon-btn" title="Ver Tripulação">
+                        <i data-lucide="users"></i>
+                    </button>
+                    <button onclick="minimizarChat()" class="icon-btn" title="Minimizar">
+                        <i data-lucide="minus"></i>
+                    </button>
+                    <button onclick="fecharChat()" class="icon-btn close" title="Fechar Missão">
+                        <i data-lucide="x"></i>
+                    </button>
+                </div>
+            </header>
+
+            <div class="chat-main-container">
+                <div id="messages">
+                    </div>
+                
+                <div id="members-sidebar" class="sidebar">
+                    <h3>Tripulação</h3>
+                    <ul id="member-list">
+                        </ul>
+                </div>
+            </div>
+
+            <div id="typing-indicator" style="display: none; padding: 5px 25px; font-size: 11px; color: var(--accent);">
+                <span id="typing-user" style="font-weight: bold;"></span> está digitando...
+            </div>
+
+            <div class="input-area-wrapper">
+                <div id="emoji-picker-container" style="display: none; position: absolute; bottom: 80px; left: 20px; z-index: 1000;"></div>
+                
+                <div class="input-container">
+                    <button class="icon-btn emoji-btn" onclick="toggleEmojiPicker()">
+                        <i data-lucide="smile"></i>
+                    </button>
+                    <input type="text" id="message-input" placeholder="Digite sua mensagem..." autocomplete="off">
+                    <button class="send-btn" onclick="enviarMensagem()">
+                        <i data-lucide="send"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="minimized-icon" onclick="maximizarChat()" style="display: none;">
+        <div id="notif-badge" class="badge">0</div>
+        <div id="floating-preview" class="preview-toast"></div>
+        <i data-lucide="message-circle"></i>
+    </div>
+
+    <script src="{{ url_for('static', filename='chat.js') }}"></script>
+    
+    <script>
+        // Inicialização global
+        lucide.createIcons();
+
+        // Atalho de teclado: Esc para fechar pickers ou minimizar
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (typeof fecharEmojiPicker === 'function') fecharEmojiPicker();
+                const sidebar = document.getElementById('members-sidebar');
+                if (sidebar.classList.contains('open')) sidebar.classList.remove('open');
+            }
+        });
+    </script>
+</body>
+</html>

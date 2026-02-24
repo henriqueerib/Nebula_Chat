@@ -1,8 +1,6 @@
 # 🌌 Nebula Chat AI
 > **Secure Quantum Messaging** - Uma plataforma de comunicação em tempo real com design futurista (Glassmorphism) e recursos premium.
 
-![Nebula Chat Cover](https://via.placeholder.com/800x400/0f172a/8b5cf6?text=Nebula+Chat+AI)
-
 ## ✨ Funcionalidades
 * **Comunicação em Tempo Real:** Powered by WebSockets (Socket.IO).
 * **UI/UX Premium de 2026:** Design baseado em Glassmorphism, com desfoque de fundo e animações espaciais.
